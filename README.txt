@@ -38,5 +38,4 @@ See the attached config.ru file for the simplest example.
 
 == INSTALL:
 
-    git clone git://github.com/thefifthcircuit/s3_uploader.git
- 
+    git clone git://github.com/thefifthcircuit/tfcwiki.git
