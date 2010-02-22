@@ -1,0 +1,17 @@
+<% @uploads.each_with_index do |upload, i| %>
+  <div>
+    <h3>
+      <%= upload["name"] %>
+      
+      <small style="font-size: 0.7em"><%= upload["uploaded_on"] %></small>
+    </h3>
+    
+    <p><%= upload["description"] %></p>
+  </div>
+  
+  <% unless i == @uploads.length - 1 %>
+    <hr>
+  <% end %>
+<% end %>
+
+<h3><a href="upload">Upload a new file</a></h3>

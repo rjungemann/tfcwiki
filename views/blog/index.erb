@@ -1,0 +1,15 @@
+<% @posts.each_with_index do |post, i| %>
+  <h2><a href="/<%= post["slug"] %>"><%= post["name"] %></a></h2>
+  
+  <div><%= post["parsed_contents"] %></div>
+  
+  <div style="margin: 18px auto;">
+    <b>Tagged as</b> <%= post["tags"] %> &mdash;
+    <b>Created</b> <%= post["updated_on"].strftime("%m/%d/%Y") %> &mdash;
+    <b>Last updated</b> <%= post["updated_on"].strftime("%m/%d/%Y") %>
+  </div>
+  
+  <%= "<hr>" if i < @posts.size - 1 %>
+<% end %>
+
+<h3><a href="/create">Create a new post</a></h3>

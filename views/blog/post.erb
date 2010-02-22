@@ -1,0 +1,43 @@
+<h1>
+  <%=
+    heading = @post ? "#{'Editing ' if @editable}#{@post["name"]}" : "Creating a new post"
+    
+    if(@post)
+      action = @editable ? 'show' : 'edit'
+      url = "/#{@post['slug']}/#{action}"
+      
+      heading += %{ <form style="display: inline;" method="get" action="#{url}"><input type="submit" value="#{action}"></form>} 
+    end
+    
+    heading
+  %>
+</h1>
+
+<form method="post" action="/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
+  <% if @editable %>
+    <input type="text" name="name" value="<%= @name || (@post["name"] if @post) %>">
+    <textarea name="contents"><%= @post["contents"] if @post %></textarea>
+  <% else %>
+    <%= @post["parsed_contents"] if @post %>
+  <% end %>
+  
+  <% if @editable %>
+    <div>
+      <b>Tags</b><br>
+      <input type="text" name="tags" value="<%= @post["tags"] if @post %>">
+    </div>
+    
+    <div>
+      <input type="checkbox" name="published"<%= (@post["published"] ? ' checked' : '') if @post %>>
+      <b>Published</b>
+    </div>
+  <% elsif @post %>
+    <div style="margin-top: 18px;">
+      <b>Tagged as</b> <%= @post["tags"] %> &mdash;
+      <b>Created</b> <%= @post["updated_on"] %> &mdash;
+      <b>Last updated</b> <%= @post["updated_on"] %>
+    </div>
+  <% end %>
+  
+  <%= %{<tr><td><input type="submit"></td></tr>} if @editable %>
+</form>
