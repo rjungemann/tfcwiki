@@ -1,3 +1,3 @@
-[submodule "hardlinker"]
-path = lib/hardlinker
-url = git://github.com/thefifthcircuit/hardlinker.git
+[submodule "lib/hardlinker"]
+	path = lib/hardlinker
+	url = git://github.com/thefifthcircuit/hardlinker.git
