@@ -10,17 +10,19 @@
     <lastBuildDate><%= @last_build_date %></lastBuildDate>
     
     <image>
-      <title>DevX</title>
-      <url>http://www.devx.com/assets/devx/3182.gif</url>
-      <link>http://www.DevX.com</link>
+      <title><%= @blog_title %></title>
+      <url><%= @blog_img %></url>
+      <link><%= @blog_link %></link>
     </image>
   </channel>
   
-  <item>
-    <title>Attend to your future. </title>
-    <description>A future where millions of users are waiting.</description>
-    <link>http://www.devx.com/content/id/10559</link>
-    <author> editorial@devx.com </author>
-    <pubDate>Wed, 22 Jan 2003 11:19:28 PST</pubDate>
-  </item>
+	<% @posts.each do |post| %>
+  	<item>
+  	  <title><%= post["name"] %></title>
+  	  <description><%= post["parsed_contents"] %></description>
+  	  <link><%= "#{@blog_root}/#{post['slug']}" %></link>
+  	  <author></author>
+  	  <pubDate><%= post["created_on"] %></pubDate>
+  	</item>
+	<% end %>
 </rss>

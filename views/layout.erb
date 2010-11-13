@@ -2,39 +2,37 @@
 <script src="/scripts/jHtmlArea-0.7.0.min.js"></script>
 
 <script>
-  $(function(){
-    $("textarea").css("width", "800px");
-    $("textarea").css("height", "250px");
-    $("textarea").htmlarea();
-  });
+	$(function(){
+		$("textarea").css("width", "800px");
+		$("textarea").css("height", "250px");
+		$("textarea").htmlarea();
+	});
 </script>
 
 <link rel="stylesheet" href="/styles/reset.css">
-<link rel="stylesheet" href="/styles/960.css">
-<link rel="stylesheet" href="/styles/960_24_col.css">
 <link rel="stylesheet" href="/styles/text.css">
 <link rel="stylesheet" href="/styles/jHtmlArea.css">
 <link rel="stylesheet" href="/styles/style.css">
 
 <div id="header">
-  <h1>TFCWiki
-  
-    <span style="font-size: 0.6em; padding-left: 10px;">
-      <a href="/">Home</a>
-      <a href="/create">New post</a>
-      <a href="/uploads/">Files</a>
-      <a href="/uploads/upload">Upload File</a>
-    </span>
-  </h1>
+	<h1>TFCWiki
+	
+		<span style="font-size: 0.6em; padding-left: 10px;">
+			<a href="/">Home</a>
+			<a href="/create">New post</a>
+			<a href="/uploads/">Files</a>
+			<a href="/uploads/upload">Upload File</a>
+		</span>
+	</h1>
 </div>
 
 <div id="main"><%= yield %></div>
 
 <div id="footer">
-  <hr>
-  
-  <small>
-    Created by <a href="mailto:roger@thefifthcircuit.com">Roger Jungemann</a>.
-    Copyright 2010 <a href="http://thefifthcircuit.com">thefifthcircuit</a>.
-  </small>
+	<hr>
+	
+	<small>
+		Created by <a href="mailto:roger@thefifthcircuit.com">Roger Jungemann</a>.
+		Copyright 2010 <a href="http://thefifthcircuit.com">thefifthcircuit</a>.
+	</small>
 </div>

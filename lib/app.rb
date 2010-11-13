@@ -4,9 +4,7 @@ require "#{File.dirname(__FILE__)}/../vendor/rack-flash/lib/rack-flash"
 module TFCWiki
   class App < Sinatra::Base
     configure do
-      db = Moneta::File.new(:path => "#{File.dirname(__FILE__)}/../db")
-      
-      set :db, db
+      set :db, Moneta::File.new(:path => "#{File.dirname(__FILE__)}/../db")
       
       db["posts"] ||= []
     end
@@ -20,6 +18,11 @@ module TFCWiki
     end
     
     get "/feed.rss" do
+      @blog_title = "tfcwiki"
+    	@blog_img = "http://wiki.thefifthcircuit.com/splash.png"
+    	@blog_link = "http://wiki.thefifthcircuit.com"
+    	@blog_root = "http://wiki.thefifthcircuit.com"
+      
       @title = ""
       @link = ""
       @description = ""
@@ -100,6 +103,7 @@ module TFCWiki
       post["tags"] = params[:tags]
       post["parsed_tags"] = post["tags"].split(",").collect &:strip
       post["published"] = params[:published] == "on"
+      post["created_on"] = time(Time.now)
       post["updated_on"] = time(Time.now)
       
       puts params[:published]

@@ -26,19 +26,14 @@ end
 # replacing any non alphanumeric characters. Underscores are removed from the
 # beginning and end, and two or more adjacent underscores are reduced to one.
 def sluggerize string
-  array = string.downcase.gsub(/[^\w]/, "_").gsub(/__+/, "_").split("")
+  str = string.downcase.gsub(/[^\w]/, "_").gsub(/__+/, "_")
   
-  array = array[1..-1] while array.first == "_"
-  array = array[0..-2] while array.last == "_"
+  str = str[1..-1] while str[0] == "_"
+  str = str[0..-2] while str[-1] == "_"
   
-  array.join("")
+  str
 end
 
 def time t
-  days_of_week = %w[Sun Mon Tues Wed Thurs Fri Sat]
-  day_of_week = t.strftime("%w")
-  date = t.strftime("%m")
-  date = date.chars.first == "0" ? date[1..-1] : date
-  
-  t.strftime("#{day_of_week}, #{date} %b %Y %H:%M:%d %Z")
+  t.strftime("%a, %m %b %Y %H:%M:%S %Z")
 end

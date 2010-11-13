@@ -20,10 +20,7 @@ tfcwiki also has a built-in uploader. Uploaded files can be referenced like abov
 
 == FEATURES/PROBLEMS:
 
-* I need to replace /:name/show with /:name
-* I want to add Everything2 (http://everything2.org) styled "softlinks" using Rack::Flash.
-* Add authentication using turnstile
-* Finish RSS support
+* Add authentication
 * Finish audio, movie, and swf support.
 
 == SYNOPSIS:
