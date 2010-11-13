@@ -22,7 +22,9 @@
   	  <description><%= post["parsed_contents"] %></description>
   	  <link><%= "#{@blog_root}/#{post['slug']}" %></link>
   	  <author></author>
-  	  <pubDate><%= post["created_on"] %></pubDate>
+  	  <pubDate>
+				<%= Date.parse(post["created_on"]).strftime("%a, %m %b %Y %H:%M:%S %Z") %>
+			</pubDate>
   	</item>
 	<% end %>
 </rss>

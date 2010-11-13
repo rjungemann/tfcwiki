@@ -5,8 +5,8 @@
   
   <div style="margin: 18px auto;">
     <b>Tagged as</b> <%= post["tags"] %> &mdash;
-    <b>Created</b> <%= post["created_on"] %> &mdash;
-    <b>Last updated</b> <%= post["updated_on"] %>
+    <b>Created</b> <%= Date.parse(post["created_on"]).strftime("%D") %> &mdash;
+    <b>Last updated</b> <%= Date.parse(post["updated_on"]).strftime("%D") %>
   </div>
   
   <%= "<hr>" if i < @posts.size - 1 %>
