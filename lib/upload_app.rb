@@ -1,4 +1,5 @@
 require "#{File.dirname(__FILE__)}/utils"
+require "#{File.dirname(__FILE__)}/hardlinker/lib/hardlinker"
 
 module TFCWiki
   class UploadApp < Sinatra::Base
@@ -6,6 +7,10 @@ module TFCWiki
       db = Moneta::File.new(:path => "#{File.dirname(__FILE__)}/../db")
       upload_path = "#{File.dirname(__FILE__)}/../public/media"
       
+      h = Hardlinker.new
+    	h.linkers += [Linkers::Image.new, Linkers::Default.new]
+      
+      set :hardlinker, h
       set :upload_path, upload_path
       set :db, db
       
@@ -34,7 +39,7 @@ module TFCWiki
       
       @file = params[:file][:tempfile]
       @description = params[:description]
-      @parsed_description = sluggerize @description
+      @parsed_description = TFCWiki::Sluggerizer.sluggerize(@description)
       @uploaded_on = time(Time.now)
       
       File.open("#{options.upload_path}/#{@name}", "w") do |f|
@@ -45,7 +50,7 @@ module TFCWiki
       options.db["upload-#{@name}"] = {
         "name" => @name,
         "description" => @description,
-        "parsed_description" => parse_links(@description),
+        "parsed_description" => options.hardlinker.render(@description),
         "uploaded_on" => @uploaded_on
       }
       redirect "/uploads/"

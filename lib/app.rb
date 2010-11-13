@@ -1,9 +1,13 @@
 require "#{File.dirname(__FILE__)}/utils"
-require "#{File.dirname(__FILE__)}/../vendor/rack-flash/lib/rack-flash"
+require "#{File.dirname(__FILE__)}/hardlinker/lib/hardlinker"
 
 module TFCWiki
   class App < Sinatra::Base
     configure do
+      h = Hardlinker.new
+    	h.linkers += [Linkers::Image.new, Linkers::Default.new]
+      
+      set :hardlinker, h
       set :db, Moneta::File.new(:path => "#{File.dirname(__FILE__)}/../db")
       
       db["posts"] ||= []
@@ -85,7 +89,7 @@ module TFCWiki
     private
     
     def create_or_update_post
-      slug = params[:slug] || sluggerize(params[:name])
+      slug = params[:slug] || TFCWiki::Sluggerizer.sluggerize(params[:name])
       
       posts = options.db["posts"]
       post = options.db["post-#{slug}"] || { "created_on" => time(Time.now) }
@@ -99,7 +103,7 @@ module TFCWiki
       post["name"] = params[:name]
       post["slug"] = slug
       post["contents"] = params[:contents]
-      post["parsed_contents"] = parse_links(post["contents"])
+      post["parsed_contents"] = options.hardlinker.render(post["contents"])
       post["tags"] = params[:tags]
       post["parsed_tags"] = post["tags"].split(",").collect &:strip
       post["published"] = params[:published] == "on"
