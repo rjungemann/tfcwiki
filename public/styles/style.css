@@ -22,6 +22,6 @@ td {
 input[type=text] {
 	width: 800px;
 }
-div.jHtmlArea {
+div .jHtmlArea {
 	border: 1px solid #cccccc;
 }

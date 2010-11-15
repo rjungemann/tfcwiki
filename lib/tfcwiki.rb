@@ -18,6 +18,9 @@ module TFCWiki
     	h.linkers += [Linkers::Image.new, Linkers::Default.new]
       
       set :hardlinker, h
+      set :views, File.dirname(__FILE__) + '/../views'
+      set :layout, File.dirname(__FILE__) + '/../views/layout.erb'
+      set :public, File.dirname(__FILE__) + '/../public'
     end
     
     get "/" do
