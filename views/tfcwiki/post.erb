@@ -1,4 +1,4 @@
-<h1>
+<h2>
   <%=
     heading = @post ? "#{'Edit ' if @editable}#{@post["name"]} " : "Create a new post "
     
@@ -7,13 +7,15 @@
 			caption = @editable ? 'show' : 'edit'
       url = "/wiki/#{@post['slug']}/#{action}"
       
-			heading += Date.parse(@post["created_on"]).strftime("%D") + " "
+			heading += %{<small style="font-size: 0.7em">} +
+				Date.parse(@post["created_on"]).strftime("%D") +
+				"</small> "
       heading += %{(<a href="#{url}">#{caption}</a>)} 
     end
     
     heading
   %>
-</h1>
+</h2>
 
 <form method="post" action="/wiki/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
   <% if @editable %>

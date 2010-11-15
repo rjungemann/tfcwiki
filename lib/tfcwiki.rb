@@ -20,7 +20,7 @@ module TFCWiki
       set :hardlinker, h
     end
     
-    get "/" do
+    get "/wiki/?" do
       @posts = db.smembers("posts").collect { |slug|
         JSON.parse(db.get("post-#{slug}")) rescue nil
       }.reject { |post| !post["published"] }
@@ -28,7 +28,7 @@ module TFCWiki
       erb :"tfcwiki/index"
     end
     
-    get "/feed.rss" do
+    get "/wiki/feed.rss" do
       @blog_title = "tfcwiki"
     	@blog_img = "http://wiki.thefifthcircuit.com/splash.png"
     	@blog_link = "http://wiki.thefifthcircuit.com"
@@ -52,7 +52,7 @@ module TFCWiki
       erb :"tfcwiki/feed.rss"
     end
     
-    get "/:slug" do
+    get "/wiki/:slug/?" do
       slug = params[:slug]
       
       @post = JSON.parse(db.get("post-#{slug}")) rescue nil
@@ -63,11 +63,7 @@ module TFCWiki
       erb :"tfcwiki/post"
     end
     
-    get "/:slug/" do
-      redirect "/wiki/#{params[:slug]}"
-    end
-    
-    get "/:slug/edit" do
+    get "/wiki/:slug/edit" do
       slug = params[:slug]
       
       @post = JSON.parse(db.get("post-#{slug}")) rescue nil
@@ -76,16 +72,16 @@ module TFCWiki
       erb :"tfcwiki/post"
     end
     
-    get "/create" do
+    get "/wiki/create" do
       @editable = true
       
       erb :"tfcwiki/post"
     end
     
-    post("/:slug/edit") { create_or_update_post }
-    post("/create") { create_or_update_post }
+    post("/wiki/:slug/edit") { create_or_update_post }
+    post("/wiki/create") { create_or_update_post }
     
-    post "/:slug/destroy" do
+    post "/wiki/:slug/destroy" do
       slug = params[:slug]
       
       db["posts"].collect {
@@ -151,7 +147,7 @@ module TFCWiki
       `mkdir #{upload_path}` unless File.exists? upload_path
     end
     
-    get "/" do
+    get "/wiki/uploads/" do
       @uploads = db.smembers("uploads").collect do |name|
         JSON.parse(db.get("upload-#{name}")) rescue nil
       end
@@ -159,11 +155,11 @@ module TFCWiki
       erb :"uploads/index"
     end
     
-    get "/upload" do
+    get "/wiki/uploads/upload" do
       erb :"uploads/upload"
     end
     
-    post "/upload" do
+    post "/wiki/uploads/upload" do
       @name = params[:alternative_name].blank? ?
         params[:file][:filename] : params[:alternative_name]
       
@@ -201,7 +197,7 @@ module TFCWiki
       redirect "/wiki/uploads/"
     end
     
-    get '/:name' do
+    get '/wiki/uploads/:name' do
       if options.upload_type == :s3
         redirect "http://#{ENV["TFCWIKIBUCKET"]}.s3.amazonaws.com/#{params[:name]}"
       else
@@ -209,7 +205,7 @@ module TFCWiki
       end
     end
     
-    post "/:name/destroy" do
+    post "/wiki/uploads/:name/destroy" do
       redirect "/wiki/uploads/"
     end
     

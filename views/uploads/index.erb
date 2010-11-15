@@ -1,14 +1,12 @@
 <% @uploads.each do |upload| %>
   <div>
-		<h3>
-			<a href="/wiki/uploads/<%= upload['name'] %>">
-				<%= upload["name"] %>
-			</a>
+		<h2>
+			<a href="/wiki/uploads/<%= upload['name'] %>"><%= upload["name"] %></a>
 
       <small style="font-size: 0.7em">
 				<%= Date.parse(upload["uploaded_on"]).strftime("%D") %>
 			</small>
-    </h3>
+    </h2>
     
     <p><%= upload["description"] %></p>
   </div>

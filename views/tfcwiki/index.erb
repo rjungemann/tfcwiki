@@ -1,9 +1,9 @@
 <% @posts.each do |post| %>
   <h2>
-		<a href="/wiki/<%= post["slug"] %>">
-			<%= post["name"] %>
-		</a>
-		<%= Date.parse(post["created_on"]).strftime("%D") %>
+		<a href="/wiki/<%= post["slug"] %>"><%= post["name"] %></a>
+		<small style="font-size: 0.7em">
+			<%= Date.parse(post["created_on"]).strftime("%D") %>
+		</small>
 	</h2>
   
   <div><%= post["parsed_contents"] %></div>
@@ -17,4 +17,8 @@
   </div>
 <% end %>
 
-<h3><a href="/wiki/create">Create a new post</a></h3>
+<h3>
+	<a href="/wiki/create">New post</a>
+	<a href="/wiki/uploads/">Files</a>
+	<a href="/wiki/uploads/upload">Upload File</a>
+</h3>
