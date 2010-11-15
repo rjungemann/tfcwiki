@@ -1,6 +1,6 @@
 <% @posts.each do |post| %>
   <h2>
-		<a href="<%= env["SCRIPT_NAME"] %>/<%= post["slug"] %>">
+		<a href="/wiki/<%= post["slug"] %>">
 			<%= post["name"] %>
 		</a>
 	</h2>
@@ -16,4 +16,4 @@
   <%= "<hr>" if i < @posts.size - 1 %>
 <% end %>
 
-<h3><a href="/create">Create a new post</a></h3>
+<h3><a href="/wiki/create">Create a new post</a></h3>

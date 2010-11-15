@@ -5,16 +5,16 @@
     if(@post)
       action = @editable ? '' : 'edit'
 			caption = @editable ? 'show' : 'edit'
-      url = "/#{@post['slug']}/#{action}"
+      url = "/wiki/#{@post['slug']}/#{action}"
       
-      heading += %{<form style="display: inline;" method="get" action="#{url}"><input type="submit" value="#{caption}"></form>} 
+      heading += %{ (<a href="#{url}">#{caption}</a>)} 
     end
     
     heading
   %>
 </h1>
 
-<form method="post" action="/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
+<form method="post" action="/wiki/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
   <% if @editable %>
 		<p>
 			<b>Name</b><br>

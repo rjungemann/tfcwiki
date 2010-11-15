@@ -1,7 +1,7 @@
 <% @uploads.each do |upload| %>
   <div>
 		<h3>
-			<a href="<%= env["SCRIPT_NAME"] %>/<%= upload['name'] %>">
+			<a href="/wiki/uploads/<%= upload['name'] %>">
 				<%= upload["name"] %>
 			</a>
 
