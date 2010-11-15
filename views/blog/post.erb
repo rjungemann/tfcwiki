@@ -18,7 +18,7 @@
   <% if @editable %>
 		<p>
 			<b>Name</b><br>
-			<input type="text" name="name" value="<%= @name || (@post["name"] if @post) %>">
+			<input type="text" name="name" class="wide-input" value="<%= @name || (@post["name"] if @post) %>">
 	  </p>
 	
 		<p>
@@ -28,7 +28,7 @@
 
     <p>
       <b>Tags</b><br>
-      <input type="text" name="tags" value="<%= @post["tags"] if @post %>">
+      <input type="text" name="tags" class="wide-input" value="<%= @post["tags"] if @post %>">
     </p>
     
     <p>
