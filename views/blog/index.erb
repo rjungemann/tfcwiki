@@ -1,5 +1,9 @@
-<% @posts.each_with_index do |post, i| %>
-  <h2><a href="/<%= post["slug"] %>"><%= post["name"] %></a></h2>
+<% @posts.each do |post| %>
+  <h2>
+		<a href="<%= env["SCRIPT_NAME"] %>/<%= post["slug"] %>">
+			<%= post["name"] %>
+		</a>
+	</h2>
   
   <div><%= post["parsed_contents"] %></div>
   

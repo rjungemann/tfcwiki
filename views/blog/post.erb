@@ -1,13 +1,13 @@
 <h1>
   <%=
-    heading = @post ? "#{'Editing ' if @editable}#{@post["name"]}" : "Creating a new post"
+    heading = @post ? "#{'Edit ' if @editable}#{@post["name"]}" : "Create a new post"
     
     if(@post)
       action = @editable ? '' : 'edit'
 			caption = @editable ? 'show' : 'edit'
       url = "/#{@post['slug']}/#{action}"
       
-      heading += %{ <form style="display: inline;" method="get" action="#{url}"><input type="submit" value="#{caption}"></form>} 
+      heading += %{<form style="display: inline;" method="get" action="#{url}"><input type="submit" value="#{caption}"></form>} 
     end
     
     heading
@@ -16,18 +16,25 @@
 
 <form method="post" action="/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
   <% if @editable %>
-		<input type="text" name="name" value="<%= @name || (@post["name"] if @post) %>">
-	  <textarea name="contents"><%= @post["contents"] if @post %></textarea>
+		<p>
+			<b>Name</b><br>
+			<input type="text" name="name" value="<%= @name || (@post["name"] if @post) %>">
+	  </p>
+	
+		<p>
+			<b>Contents</b><br>
+			<textarea id="contents" name="contents"><%= @post["contents"] if @post %></textarea>
+		</p>
 
-    <div>
+    <p>
       <b>Tags</b><br>
       <input type="text" name="tags" value="<%= @post["tags"] if @post %>">
-    </div>
+    </p>
     
-    <div>
+    <p>
       <input type="checkbox" name="published"<%= (@post["published"] ? ' checked' : '') if @post %>>
       <b>Published</b>
-    </div>
+    </p>
 
 		<tr><td><input type="submit"></td></tr>
   <% elsif @post %>

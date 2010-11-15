@@ -131,6 +131,10 @@ module TFCWiki
       
       redirect "#{env["SCRIPT_NAME"]}/#{slug}"
     end
+    
+    def iphone?
+      env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+    end
   end
   
   class UploadApp < Sinatra::Base
@@ -151,8 +155,6 @@ module TFCWiki
       @uploads = db.smembers("uploads").collect do |name|
         JSON.parse(db.get("upload-#{name}")) rescue nil
       end
-      
-      @prefix = env["SCRIPT_NAME"]
       
       erb :"uploads/index"
     end
@@ -214,5 +216,9 @@ module TFCWiki
     private
     
     def db(options = {}); Redis.new(options) end
+    
+    def iphone?
+      env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+    end
   end
 end

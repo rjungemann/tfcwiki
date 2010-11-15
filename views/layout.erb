@@ -1,38 +1,53 @@
-<script src="/scripts/jquery-1.3.2.min.js"></script>
-<script src="/scripts/jHtmlArea-0.7.0.min.js"></script>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+	"http://www.w3.org/TR/html4/strict.dtd">
+<html>
+	<head>
+		<script src="/scripts/jquery-1.3.2.min.js"></script>
+		<script src="/scripts/jHtmlArea-0.7.0.min.js"></script>
 
-<script>
-	$(function(){
-		$("textarea").css("width", "800px");
-		$("textarea").css("height", "250px");
-		$("textarea").htmlarea();
-	});
-</script>
+		<script>
+			$(function() {
+				$("textarea").css("width", "800px");
+				$("textarea").css("height", "250px");
 
-<link rel="stylesheet" href="/styles/reset.css">
-<link rel="stylesheet" href="/styles/text.css">
-<link rel="stylesheet" href="/styles/jHtmlArea.css">
-<link rel="stylesheet" href="/styles/style.css">
+				<% unless iphone? %>
+					$("textarea").htmlarea();
+				<% end %>
+			});
+		</script>
 
-<div id="header">
-	<h1>TFCWiki
+		<link rel="stylesheet" href="/styles/reset.css">
+		<link rel="stylesheet" href="/styles/text.css">
+		<link rel="stylesheet" href="/styles/jHtmlArea.css">
+		<link rel="stylesheet" href="/styles/style.css">
+
+		<% if iphone? %>
+			<meta name="viewport" content="width=830;">
+		<% end %>
+	</head>
 	
-		<span style="font-size: 0.6em; padding-left: 10px;">
-			<a href="/">Home</a>
-			<a href="/create">New post</a>
-			<a href="/uploads/">Files</a>
-			<a href="/uploads/upload">Upload File</a>
-		</span>
-	</h1>
-</div>
+	<body>
+		<div id="header">
+			<h1>
+				<a href="/">tfcwiki</a>
 
-<div id="main"><%= yield %></div>
+				<span style="font-size: 0.6em; padding-left: 10px;">
+					<a href="/create">New post</a>
+					<a href="/uploads/">Files</a>
+					<a href="/uploads/upload">Upload File</a>
+				</span>
+			</h1>
+		</div>
 
-<div id="footer">
-	<hr>
-	
-	<small>
-		Created by <a href="mailto:roger@thefifthcircuit.com">Roger Jungemann</a>.
-		Copyright 2010 <a href="http://thefifthcircuit.com">thefifthcircuit</a>.
-	</small>
-</div>
+		<div id="main"><%= yield %></div>
+
+		<div id="footer">
+			<hr>
+
+			<small>
+				Created by <a href="mailto:roger@thefifthcircuit.com">Roger Jungemann</a>.
+				Copyright 2010 <a href="http://thefifthcircuit.com">thefifthcircuit</a>.
+			</small>
+		</div>
+	</body>
+</html>

@@ -1,24 +1,27 @@
 #header {
-  width: 100%;
-  background-color: #cccccc;
-  border-bottom: 2px solid #999999;
-  height: 40px;
-  margin-bottom: 20px;
-  padding-top: 10px;
+	width: 100%;
+	background-color: #cccccc;
+	border-bottom: 2px solid #999999;
+	height: 40px;
+	margin-bottom: 20px;
+	padding-top: 10px;
 }
 #header > h1 {
-  position: relative;
-  margin-left: 10px;
+	position: relative;
+	margin-left: 10px;
 }
 #main, #footer {
-  padding-left: 10px;
-  padding-right: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 td {
-  padding-right: 5px;
-  padding-bottom: 2px;
+	padding-right: 5px;
+	padding-bottom: 2px;
 	vertical-align: top;
 }
 input[type=text] {
-	width: 660px;
+	width: 800px;
+}
+div.jHtmlArea {
+	border: 1px solid #cccccc;
 }

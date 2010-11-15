@@ -1,9 +1,13 @@
 <% @uploads.each do |upload| %>
   <div>
 		<h3>
-			<a href="<%= @prefix %>/<%= upload['name'] %>"><%= upload["name"] %></a>
+			<a href="<%= env["SCRIPT_NAME"] %>/<%= upload['name'] %>">
+				<%= upload["name"] %>
+			</a>
 
-      <small style="font-size: 0.7em"><%= Date.parse(upload["uploaded_on"]).strftime("%D") %></small>
+      <small style="font-size: 0.7em">
+				<%= Date.parse(upload["uploaded_on"]).strftime("%D") %>
+			</small>
     </h3>
     
     <p><%= upload["description"] %></p>
