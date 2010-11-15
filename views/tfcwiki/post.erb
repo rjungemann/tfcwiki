@@ -1,4 +1,4 @@
-<h2>
+<h1>
   <%=
     heading = @post ? "#{'Edit ' if @editable}#{@post["name"]} " : "Create a new post "
     
@@ -15,7 +15,7 @@
     
     heading
   %>
-</h2>
+</h1>
 
 <form method="post" action="/wiki/<%= @post ? @post["slug"] + "/edit" : 'create' %>">
   <% if @editable %>

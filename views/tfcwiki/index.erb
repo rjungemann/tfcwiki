@@ -1,10 +1,10 @@
 <% @posts.each do |post| %>
-  <h2>
+  <h1>
 		<a href="/wiki/<%= post["slug"] %>"><%= post["name"] %></a>
 		<small style="font-size: 0.7em">
 			<%= Date.parse(post["created_on"]).strftime("%D") %>
 		</small>
-	</h2>
+	</h1>
   
   <div><%= post["parsed_contents"] %></div>
   
