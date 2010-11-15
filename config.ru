@@ -3,7 +3,10 @@ require "#{::File.dirname(__FILE__)}/lib/tfcwiki"
 
 run Rack::URLMap.new({
   "/wiki" => Rack::URLMap.new({
-    "/" => TFCWiki::App.new,
+    "/" => Rack::Cascade.new([
+      TFCWiki::App.new,
+      Rack::File.new("#{::File.dirname(__FILE__)}/public")
+    ]),
     "/uploads" => TFCWiki::UploadApp.new
   })
 })

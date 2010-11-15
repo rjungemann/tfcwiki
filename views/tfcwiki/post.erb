@@ -1,13 +1,14 @@
 <h1>
   <%=
-    heading = @post ? "#{'Edit ' if @editable}#{@post["name"]}" : "Create a new post"
+    heading = @post ? "#{'Edit ' if @editable}#{@post["name"]} " : "Create a new post "
     
     if(@post)
       action = @editable ? '' : 'edit'
 			caption = @editable ? 'show' : 'edit'
       url = "/wiki/#{@post['slug']}/#{action}"
       
-      heading += %{ (<a href="#{url}">#{caption}</a>)} 
+			heading += Date.parse(@post["created_on"]).strftime("%D") + " "
+      heading += %{(<a href="#{url}">#{caption}</a>)} 
     end
     
     heading
@@ -41,8 +42,10 @@
 		<%= @post["parsed_contents"] if @post %>
 
     <div style="margin-top: 18px;">
-      <b>Tagged as</b> <%= @post["tags"] %> &mdash;
-      <b>Created</b> <%= Date.parse(@post["created_on"]).strftime("%D") %> &mdash;
+			<% unless @post["tags"].blank? %>
+      	<b>Tagged as</b> <%= @post["tags"] %> &mdash;
+			<% end %>
+			
       <b>Last updated</b> <%= Date.parse(@post["updated_on"]).strftime("%D") %>
     </div>
   <% end %>

@@ -3,13 +3,16 @@
 		<a href="/wiki/<%= post["slug"] %>">
 			<%= post["name"] %>
 		</a>
+		<%= Date.parse(post["created_on"]).strftime("%D") %>
 	</h2>
   
   <div><%= post["parsed_contents"] %></div>
   
   <div style="margin: 18px auto;">
-    <b>Tagged as</b> <%= post["tags"] %> &mdash;
-    <b>Created</b> <%= Date.parse(post["created_on"]).strftime("%D") %> &mdash;
+    <% unless post["tags"].blank? %>
+    	<b>Tagged as</b> <%= @post["tags"] %> &mdash;
+		<% end %>
+		
     <b>Last updated</b> <%= Date.parse(post["updated_on"]).strftime("%D") %>
   </div>
 <% end %>

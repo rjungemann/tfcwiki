@@ -25,7 +25,7 @@ module TFCWiki
         JSON.parse(db.get("post-#{slug}")) rescue nil
       }.reject { |post| !post["published"] }
       
-      erb :"blog/index"
+      erb :"tfcwiki/index"
     end
     
     get "/feed.rss" do
@@ -49,7 +49,7 @@ module TFCWiki
         JSON.parse(db.get("post-#{slug}")) rescue nil
       }.reject { |post| !post["published"] }
       
-      erb :"blog/feed.rss"
+      erb :"tfcwiki/feed.rss"
     end
     
     get "/:slug" do
@@ -60,7 +60,7 @@ module TFCWiki
       
       @editable = @post ? false : true
       
-      erb :"blog/post"
+      erb :"tfcwiki/post"
     end
     
     get "/:slug/" do
@@ -73,13 +73,13 @@ module TFCWiki
       @post = JSON.parse(db.get("post-#{slug}")) rescue nil
       @editable = true
       
-      erb :"blog/post"
+      erb :"tfcwiki/post"
     end
     
     get "/create" do
       @editable = true
       
-      erb :"blog/post"
+      erb :"tfcwiki/post"
     end
     
     post("/:slug/edit") { create_or_update_post }
