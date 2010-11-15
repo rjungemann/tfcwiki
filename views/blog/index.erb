@@ -12,8 +12,6 @@
     <b>Created</b> <%= Date.parse(post["created_on"]).strftime("%D") %> &mdash;
     <b>Last updated</b> <%= Date.parse(post["updated_on"]).strftime("%D") %>
   </div>
-  
-  <%= "<hr>" if i < @posts.size - 1 %>
 <% end %>
 
 <h3><a href="/wiki/create">Create a new post</a></h3>
