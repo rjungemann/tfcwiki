@@ -18,9 +18,6 @@ module TFCWiki
     	h.linkers += [Linkers::Image.new, Linkers::Default.new]
       
       set :hardlinker, h
-      set :views, File.dirname(__FILE__) + '/../views'
-      set :layout, File.dirname(__FILE__) + '/../views/layout.erb'
-      set :public, File.dirname(__FILE__) + '/../public'
     end
     
     get "/" do
@@ -150,9 +147,6 @@ module TFCWiki
       set :hardlinker, h
       set :upload_path, upload_path
       set :upload_type, :s3 # or :local
-      set :views, File.dirname(__FILE__) + '/../views'
-      set :layout, File.dirname(__FILE__) + '/../views/layout.erb'
-      set :public, File.dirname(__FILE__) + '/../public'
       
       `mkdir #{upload_path}` unless File.exists? upload_path
     end
