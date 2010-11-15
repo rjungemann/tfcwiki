@@ -67,7 +67,7 @@ module TFCWiki
     end
     
     get "/:slug/" do
-      redirect "#{env["SCRIPT_NAME"]}/#{params[:slug]}"
+      redirect "/wiki/#{params[:slug]}"
     end
     
     get "/:slug/edit" do
@@ -99,7 +99,7 @@ module TFCWiki
       
       db.del("post-#{slug}")
       
-      redirect "#{env["SCRIPT_NAME"]}/"
+      redirect "/wiki/"
     end
     
     private
@@ -132,7 +132,7 @@ module TFCWiki
       
       db.set("post-#{slug}", post.to_json)
       
-      redirect "#{env["SCRIPT_NAME"]}/#{slug}"
+      redirect "/wiki/#{slug}"
     end
     
     def iphone?
@@ -201,7 +201,7 @@ module TFCWiki
           "uploaded_on" => @uploaded_on
         }.to_json
       )
-      redirect "#{env["SCRIPT_NAME"]}/uploads/"
+      redirect "/wiki/uploads/"
     end
     
     get '/:name' do
@@ -213,7 +213,7 @@ module TFCWiki
     end
     
     post "/:name/destroy" do
-      redirect "#{env["SCRIPT_NAME"]}/uploads/"
+      redirect "/wiki/uploads/"
     end
     
     private
