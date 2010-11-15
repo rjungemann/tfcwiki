@@ -3,6 +3,7 @@
 		<a href="/wiki/<%= post["slug"] %>"><%= post["name"] %></a>
 		<small style="font-size: 0.7em">
 			<%= Date.parse(post["created_on"]).strftime("%D") %>
+			<%= post["author"] if post["author"] %>
 		</small>
 	</h1>
   

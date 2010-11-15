@@ -100,6 +100,13 @@ module TFCWiki
     def db(options = {}); Redis.new(options) end
     
     def create_or_update_post
+      if($turnstile)
+        u = user
+        
+        "User isn't signed in." if u.blank?
+        "User isn't authorized." if $turnstile.users.authorized? "vs", u[:name], "admin"
+      end
+      
       slug = params[:slug] || TFCWiki::Sluggerizer.sluggerize(params[:name])
       
       posts = db.smembers("posts")
@@ -114,6 +121,7 @@ module TFCWiki
       
       post["name"] = params[:name]
       post["slug"] = slug
+      post["author"] = u[:name] unless u.blank?
       post["contents"] = params[:contents]
       post["parsed_contents"] = options.hardlinker.render(post["contents"])
       post["tags"] = params[:tags]
@@ -130,6 +138,16 @@ module TFCWiki
     
     def iphone?
       env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+    end
+    
+    def user
+      raise "You aren't currently signedin." if session[:uuid].blank?
+      
+      user = $turnstile.users.from_uuid session[:uuid]
+      
+      raise "Your login information expired. Please signin again." if user.nil?
+      
+      user
     end
   end
   

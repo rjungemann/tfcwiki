@@ -6,9 +6,11 @@
       action = @editable ? '' : 'edit'
 			caption = @editable ? 'show' : 'edit'
       url = "/wiki/#{@post['slug']}/#{action}"
+			author = @post["author"]
       
 			heading += %{<small style="font-size: 0.7em">} +
-				Date.parse(@post["created_on"]).strftime("%D") +
+				Date.parse(@post["created_on"]).strftime("%D") + " " +
+				(@post["author"] ? "by #{@post['author']}" : "") +
 				"</small> "
       heading += %{(<a href="#{url}">#{caption}</a>)} 
     end
