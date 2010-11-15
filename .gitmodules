@@ -1,6 +1,3 @@
 [submodule "lib/hardlinker"]
 	path = lib/hardlinker
 	url = git://github.com/thefifthcircuit/hardlinker.git
-[submodule "lib/turnstile2"]
-	path = lib/turnstile2
-	url = git://github.com/thefifthcircuit/turnstile2.git
