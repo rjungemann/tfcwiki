@@ -1,6 +1,8 @@
 require 'date'
+require 'sinatra'
 require 'redis'
 require 'json'
+require 'aws/s3'
 require "#{File.dirname(__FILE__)}/hardlinker/lib/hardlinker"
 
 class Object
@@ -62,7 +64,7 @@ module TFCWiki
     end
     
     get "/:slug/" do
-      redirect "/#{params[:slug]}"
+      redirect "#{env["SCRIPT_NAME"]}/#{params[:slug]}"
     end
     
     get "/:slug/edit" do
@@ -94,7 +96,7 @@ module TFCWiki
       
       db.del("post-#{slug}")
       
-      redirect "/"
+      redirect "#{env["SCRIPT_NAME"]}/"
     end
     
     private
@@ -127,7 +129,7 @@ module TFCWiki
       
       db.set("post-#{slug}", post.to_json)
       
-      redirect "/#{slug}"
+      redirect "#{env["SCRIPT_NAME"]}/#{slug}"
     end
   end
   
@@ -140,6 +142,7 @@ module TFCWiki
       
       set :hardlinker, h
       set :upload_path, upload_path
+      set :upload_type, :s3 # or :local
       
       `mkdir #{upload_path}` unless File.exists? upload_path
     end
@@ -149,7 +152,7 @@ module TFCWiki
         JSON.parse(db.get("upload-#{name}")) rescue nil
       end
       
-      require 'pp'; pp @uploads
+      @prefix = env["SCRIPT_NAME"]
       
       erb :"uploads/index"
     end
@@ -171,8 +174,16 @@ module TFCWiki
       @parsed_description = TFCWiki::Sluggerizer.sluggerize(@description)
       @uploaded_on = Time.now
       
-      File.open("#{options.upload_path}/#{@name}", "w") do |f|
-        f.puts @file.read
+      if(options.upload_type == :s3)
+        AWS::S3::Base.establish_connection!(
+          :access_key_id => ENV['AMAZON_ACCESS_KEY_ID'],
+          :secret_access_key => ENV['AMAZON_SECRET_ACCESS_KEY']
+        )
+        AWS::S3::S3Object.store(@name, @file, ENV["TFCWIKIBUCKET"], :access => :public_read)
+      else
+        File.open("#{options.upload_path}/#{@name}", "w") do |f|
+          f.puts @file.read
+        end
       end
       
       db.sadd("uploads", @name)
@@ -185,11 +196,19 @@ module TFCWiki
           "uploaded_on" => @uploaded_on
         }.to_json
       )
-      redirect "/uploads/"
+      redirect "#{env["SCRIPT_NAME"]}/uploads/"
+    end
+    
+    get '/:name' do
+      if options.upload_type == :s3
+        redirect "http://#{ENV["TFCWIKIBUCKET"]}.s3.amazonaws.com/#{params[:name]}"
+      else
+        File.open("#{options.upload_path}/#{name}")
+      end
     end
     
     post "/:name/destroy" do
-      redirect "/uploads/"
+      redirect "#{env["SCRIPT_NAME"]}/uploads/"
     end
     
     private

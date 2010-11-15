@@ -1,0 +1,4 @@
+# amazon s3 signin details
+export AMAZON_ACCESS_KEY_ID=""
+export AMAZON_SECRET_ACCESS_KEY=""
+export TFCWIKIBUCKET=""
