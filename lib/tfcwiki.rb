@@ -60,6 +60,8 @@ module TFCWiki
       
       @editable = @post ? false : true
       
+      authorize if @editable
+      
       erb :"tfcwiki/post"
     end
     
