@@ -64,6 +64,8 @@ module TFCWiki
     end
     
     get "/wiki/:slug/edit" do
+      authorize
+      
       slug = params[:slug]
       
       @post = JSON.parse(db.get("post-#{slug}")) rescue nil
@@ -73,15 +75,19 @@ module TFCWiki
     end
     
     get "/wiki/create" do
+      authorize
+      
       @editable = true
       
       erb :"tfcwiki/post"
     end
     
-    post("/wiki/:slug/edit") { create_or_update_post }
-    post("/wiki/create") { create_or_update_post }
+    post("/wiki/:slug/edit") { authorize; create_or_update_post }
+    post("/wiki/create") { authorize; create_or_update_post }
     
     post "/wiki/:slug/destroy" do
+      authorize
+      
       slug = params[:slug]
       
       db["posts"].collect {
@@ -100,15 +106,9 @@ module TFCWiki
     def db(options = {}); Redis.new(options) end
     
     def create_or_update_post
-      if($turnstile)
-        u = user
-        
-        "User isn't signed in." if u.blank?
-        "User isn't authorized." if $turnstile.users.authorized? "vs", u[:name], "admin"
-      end
-      
       slug = params[:slug] || TFCWiki::Sluggerizer.sluggerize(params[:name])
       
+      u = user
       posts = db.smembers("posts")
       
       post = begin
@@ -142,12 +142,21 @@ module TFCWiki
     
     def user
       raise "You aren't currently signedin." if session[:uuid].blank?
-      
+
       user = $turnstile.users.from_uuid session[:uuid]
-      
+
       raise "Your login information expired. Please signin again." if user.nil?
       
       user
+    end
+    
+    def authorize
+      if($turnstile)
+        u = user
+        
+        "User isn't signed in." if u.blank?
+        "User isn't authorized." unless $turnstile.users.authorized? "vs", u["name"], "admin"
+      end
     end
   end
   
@@ -166,6 +175,8 @@ module TFCWiki
     end
     
     get "/wiki/uploads/" do
+      authorize
+      
       @uploads = db.smembers("uploads").collect do |name|
         JSON.parse(db.get("upload-#{name}")) rescue nil
       end
@@ -174,10 +185,14 @@ module TFCWiki
     end
     
     get "/wiki/uploads/upload" do
+      authorize
+      
       erb :"uploads/upload"
     end
     
     post "/wiki/uploads/upload" do
+      authorize
+      
       @name = params[:alternative_name].blank? ?
         params[:file][:filename] : params[:alternative_name]
       
@@ -224,6 +239,8 @@ module TFCWiki
     end
     
     post "/wiki/uploads/:name/destroy" do
+      authorize
+      
       redirect "/wiki/uploads/"
     end
     
@@ -233,6 +250,25 @@ module TFCWiki
     
     def iphone?
       env["HTTP_USER_AGENT"] && env["HTTP_USER_AGENT"][/(Mobile\/.+Safari)/]
+    end
+    
+    def user
+      raise "You aren't currently signedin." if session[:uuid].blank?
+
+      user = $turnstile.users.from_uuid session[:uuid]
+
+      raise "Your login information expired. Please signin again." if user.nil?
+      
+      user
+    end
+    
+    def authorize
+      if($turnstile)
+        u = user
+        
+        "User isn't signed in." if u.blank?
+        "User isn't authorized." unless $turnstile.users.authorized? "vs", u["name"], "admin"
+      end
     end
   end
 end
